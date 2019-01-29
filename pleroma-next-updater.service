@@ -1,0 +1,11 @@
+[Unit]
+Description = Update Pleroma instance
+
+[Service]
+WorkingDirectory=/vm/atnanasi/pleroma-next/
+ExecStart = /bin/sh /vm/atnanasi/pleroma-next/update.sh
+Type = simple
+
+[Install]
+WantedBy = multi-user.target
+
