@@ -19,7 +19,11 @@ WORKDIR pleroma
 RUN git clone -b develop https://git.pleroma.social/pleroma/pleroma.git /pleroma \
     && git checkout ${PLEROMA_VER}
 
-COPY config/secret.exs /pleroma/config/prod.secret.exs
+COPY config/config /pleroma/config/
+
+COPY config/tos.html /pleroma/priv/static/static/terms-of-service.html
+COPY config/instance /pleroma/priv/static/instance/
+COPY config/emoji /pleroma/priv/static/emoji/custom/
 
 RUN mix local.rebar --force \
     && mix local.hex --force \
