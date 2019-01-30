@@ -2,7 +2,7 @@
 Description = Update Pleroma instance
 
 [Service]
-WorkingDirectory=/vm/atnanasi/pleroma-next/
-ExecStart = /bin/sh /vm/atnanasi/pleroma-next/update.sh
+WorkingDirectory=/home/atnanasi/vm/pleroma-next/
+ExecStart = /bin/sh /home/atnanasi/vm/pleroma-next/update.sh
 Type = simple
 
