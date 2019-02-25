@@ -11,7 +11,7 @@ RUNNING_HASH=""
 
 # Get running Pleroma version
 if docker-compose exec ${PLEROMA_NAME} echo Hey, you alive? > /dev/null 2>&1; then
-    RUNNING_HASH=$(docker-compose exec ${PLEROMA_NAME} git --no-pager show -s --format=%H | head -c 7)
+    RUNNING_HASH="$(docker-compose exec ${PLEROMA_NAME} git --no-pager show -s --format=%H | head -c 7)"
 fi
 
 # Is running latest version?
