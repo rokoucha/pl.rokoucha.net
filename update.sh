@@ -9,6 +9,12 @@ DEPLOY_URL="https://pl-next.ggrel.net/"
 COMMIT_HASH=$(git ls-remote https://git.pleroma.social/pleroma/pleroma.git HEAD | head -c 7)
 RUNNING_HASH=""
 
+notify() {
+    message="$(cat -)"
+    echo "$message"
+    toot post "$message" > /dev/null 2>&1 &
+}
+
 # Get running Pleroma version
 if docker-compose exec ${PLEROMA_NAME} echo Hey, you alive? > /dev/null 2>&1; then
     RUNNING_HASH="$(docker-compose exec ${PLEROMA_NAME} git --no-pager show -s --format=%H | head -c 7)"
@@ -21,25 +27,25 @@ if [ "${COMMIT_HASH}" = "${RUNNING_HASH}" ] ; then
 fi
 
 # Let's Update!
-echo "Update Pleroma ${RUNNING_HASH} to ${COMMIT_HASH} !" | toot post
+echo "Update Pleroma ${RUNNING_HASH} to ${COMMIT_HASH} !" | notify
 
-echo "[${COMMIT_HASH}] Pulling postgres..." | toot post
+echo "[${COMMIT_HASH}] Pulling postgres..." | notify
 docker-compose pull ${POSTGRES_NAME} 
 
-echo "[${COMMIT_HASH}] Building Pleroma..." | toot post
+echo "[${COMMIT_HASH}] Building Pleroma..." | notify
 docker-compose build --no-cache --build-arg PLEROMA_VER="${COMMIT_HASH}" "${PLEROMA_NAME}"
 
-echo "[${COMMIT_HASH}] Migrating..." | toot post
+echo "[${COMMIT_HASH}] Migrating..." | notify
 docker-compose run --rm ${PLEROMA_NAME} mix ecto.migrate
 
-echo "[${COMMIT_HASH}] Deploying..." | toot post
+echo "[${COMMIT_HASH}] Deploying..." | notify
 docker-compose up -d --remove-orphans
 
 for i in $(seq 1 5); do
     isAlive=$(curl -s -o /dev/null -I -w "%{http_code}\n" "${DEPLOY_URL}")
     
     if [ "$isAlive" -eq 200 ]; then
-	echo "[${COMMIT_HASH}] Update is done!" | toot post
+	echo "[${COMMIT_HASH}] Update is done!" | notify
 	exit 0
     fi
 
