@@ -12,7 +12,7 @@ RUNNING_HASH=""
 notify() {
     message="$(cat -)"
     echo "$message"
-    toot post "$message" > /dev/null 2>&1 &
+    toot post "$message" > /dev/null 2>&1
 }
 
 # Get running Pleroma version
