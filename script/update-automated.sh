@@ -2,6 +2,8 @@
 # update.sh - Automated Pleroma updater
 set -ue
 
+pushd ../
+
 # Config
 PLEROMA_NAME="web"
 POSTGRES_NAME="postgres"
@@ -16,7 +18,7 @@ notify() {
 }
 
 # Get running Pleroma version
-if docker-compose exec ${PLEROMA_NAME} echo Hey, you alive? > /dev/null 2>&1; then
+if docker-compose run --rm ${PLEROMA_NAME} echo Hey, you alive? > /dev/null 2>&1; then
     RUNNING_HASH="$(docker-compose exec ${PLEROMA_NAME} git --no-pager show -s --format=%H | head -c 7)"
 fi
 
@@ -46,6 +48,8 @@ for i in $(seq 1 5); do
     
     if [ "$isAlive" -eq 200 ]; then
 	echo "[${COMMIT_HASH}] Update is done!" | notify
+
+	popd
 	exit 0
     fi
 
@@ -57,5 +61,7 @@ for i in $(seq 1 5); do
 done
 
 echo "[${COMMIT_HASH}] Failed to deploy..." >&2
+
+popd
 exit 1
 

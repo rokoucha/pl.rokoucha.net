@@ -2,7 +2,7 @@ version: '3'
 
 services:
   postgres:
-    image: postgres:11.1-alpine
+    image: postgres:12-alpine
     restart: always
     environment:
       POSTGRES_USER: pleroma
@@ -10,8 +10,6 @@ services:
       POSTGRES_DB: pleroma
     volumes:
       - postgres-data:/var/lib/postgresql/data
-    networks:
-      - pleroma
 
   web:
     build: .
@@ -19,10 +17,15 @@ services:
     restart: always
     volumes:
       - pleroma-uploads:/pleroma/uploads
+      - ./config/prod.secret.exs:/pleroma/config/prod.secret.exs
+      - ./config/keys.secret.exs:/pleroma/config/keys.secret.exs
+      - ./config/emoji:/pleroma/priv/static/emoji/custom
+      #- ./config/instance:/pleroma/priv/static/instance
+      #- ./config/terms-of-service.html:/pleroma/priv/static/static/terms-of-service.html
     depends_on:
       - postgres
     networks:
-      - pleroma
+      - voyager_link
 
 volumes:
   postgres-data:
@@ -31,5 +34,6 @@ volumes:
     driver: local
 
 networks:
-  pleroma:
-    driver: bridge
+  voyager_link:
+    external: true
+
