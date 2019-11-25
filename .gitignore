@@ -1,4 +1,2 @@
-config/config/*
-config/emoji/*
-config/instance/*
-!.gitkeep
+config/*.secret.exs
+!config/prod.secret.exs
