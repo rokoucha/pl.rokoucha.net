@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 # update.sh - Pleroma updater
 set -ue
 
-pushd ../
+pushd $(cd "$(dirname $0)/../"; pwd)
 
 # Config
 PLEROMA_NAME="web"
