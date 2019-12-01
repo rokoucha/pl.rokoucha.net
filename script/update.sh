@@ -5,42 +5,42 @@ set -ue
 pushd $(cd "$(dirname $0)/../"; pwd)
 
 # Config
+PLEROMA_VER=${1:-develop}
 PLEROMA_NAME="web"
 POSTGRES_NAME="postgres"
 DEPLOY_URL="https://pl-next.ggrel.net/"
-COMMIT_HASH="$1"
 
-echo "Update Pleroma to ${COMMIT_HASH} !"
+echo "Update Pleroma to ${PLEROMA_VER} !"
 
-echo "[${COMMIT_HASH}] Pulling postgres..."
+echo "[${PLEROMA_VER}] Pulling postgres..."
 docker-compose pull ${POSTGRES_NAME} 
 
-echo "[${COMMIT_HASH}] Building Pleroma..."
-docker-compose build --no-cache --build-arg PLEROMA_VER="${COMMIT_HASH}" "${PLEROMA_NAME}"
+echo "[${PLEROMA_VER}] Building Pleroma..."
+docker-compose build --pull "${PLEROMA_NAME}"
 
-echo "[${COMMIT_HASH}] Migrating..."
+echo "[${PLEROMA_VER}] Migrating..."
 docker-compose run --rm ${PLEROMA_NAME} mix ecto.migrate
 
-echo "[${COMMIT_HASH}] Deploying..."
+echo "[${PLEROMA_VER}] Deploying..."
 docker-compose up -d --remove-orphans
 
 for i in $(seq 1 5); do
     isAlive=$(curl -s -o /dev/null -I -w "%{http_code}\n" "${DEPLOY_URL}")
     
     if [ "$isAlive" -eq 200 ]; then
-	echo "[${COMMIT_HASH}] Update is done!"
+	echo "[${PLEROMA_VER}] Update is done!"
 	popd
 	exit 0
     fi
 
     sleepTime=$((5\*$i))
 
-    echo "[${COMMIT_HASH}] Return {$isAlive}, Retry in ${sleepTime}sec..." >&2
+    echo "[${PLEROMA_VER}] Return {$isAlive}, Retry in ${sleepTime}sec..." >&2
 
     sleep "${sleepTime}s"
 done
 
-echo "[${COMMIT_HASH}] Failed to deploy..." >&2
+echo "[${PLEROMA_VER}] Failed to deploy..." >&2
 
 popd
 

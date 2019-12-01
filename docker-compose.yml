@@ -14,8 +14,11 @@ services:
       - pleroma
 
   web:
-    build: .
-    image: pleroma
+    build:
+      context: ./
+      args:
+        PLEROMA_VER: ${PLEROMA_VER}
+    image: pleroma:${PLEROMA_VER}
     restart: always
     volumes:
       - pleroma-uploads:/pleroma/uploads
