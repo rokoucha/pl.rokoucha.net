@@ -5,7 +5,7 @@ set -ue
 pushd $(cd "$(dirname $0)/../"; pwd)
 
 # Config
-PLEROMA_VER=${1:-develop}
+export PLEROMA_VER=${1:-develop}
 PLEROMA_NAME="web"
 POSTGRES_NAME="postgres"
 DEPLOY_URL="https://pl-next.ggrel.net/"

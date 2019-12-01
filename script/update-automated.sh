@@ -8,7 +8,7 @@ pushd $(cd "$(dirname $0)/../"; pwd)
 PLEROMA_NAME="web"
 POSTGRES_NAME="postgres"
 DEPLOY_URL="https://pl-next.ggrel.net/"
-PLEROMA_VER=$(git ls-remote https://git.pleroma.social/pleroma/pleroma.git HEAD | head -c 7)
+export PLEROMA_VER=$(git ls-remote https://git.pleroma.social/pleroma/pleroma.git HEAD | head -c 7)
 RUNNING_HASH=""
 
 notify() {
