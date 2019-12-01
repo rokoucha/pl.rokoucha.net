@@ -33,7 +33,7 @@ for i in $(seq 1 5); do
 	exit 0
     fi
 
-    sleepTime=$((5\*$i))
+    sleepTime=$((i*5))
 
     echo "[${PLEROMA_VER}] Return {$isAlive}, Retry in ${sleepTime}sec..." >&2
 
