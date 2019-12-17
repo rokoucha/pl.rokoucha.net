@@ -2,12 +2,12 @@ version: '3'
 
 services:
   postgres:
-    image: postgres:12-alpine
+    image: "postgres:${POSTGRES_VERSION}"
     restart: always
     environment:
-      POSTGRES_USER: pleroma
-      POSTGRES_PASSWORD: pleroma
-      POSTGRES_DB: pleroma
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
     volumes:
       - postgres-data:/var/lib/postgresql/data
     networks:

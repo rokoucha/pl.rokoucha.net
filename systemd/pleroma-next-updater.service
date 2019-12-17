@@ -1,8 +1,0 @@
-[Unit]
-Description = Update Pleroma instance
-
-[Service]
-WorkingDirectory=/home/atnanasi/vm/pleroma-next/
-ExecStart = /bin/sh /home/atnanasi/vm/pleroma-next/update.sh
-Type = simple
-
