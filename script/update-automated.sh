@@ -1,6 +1,6 @@
 #!/bin/bash
 # update.sh - Automated Pleroma updater
-set -ue
+set -uex
 
 pushd $(cd "$(dirname $0)/../"; pwd)
 
@@ -24,14 +24,13 @@ fi
 notify() {
   message="$(cat -)"
   echo "$message"
-  toot post "$message" > /dev/null 2>&1
+  toot post "$message" > /dev/null 2>&1 &
 }
 
 # Get running Pleroma version
-if docker-compose run --rm ${PLEROMA_NAME} echo Hey, you alive? > /dev/null 2>&1; then
-  RUNNING_HASH="$(docker-compose exec ${PLEROMA_NAME} git --no-pager show -s --format=%H | head -c 7)"
-  echo "Already running Pleroma ${RUNNING_HASH}"
-fi
+docker-compose exec -T ${PLEROMA_NAME} echo "Hey, you alive?" &&
+  RUNNING_HASH="$(docker-compose exec -T ${PLEROMA_NAME} git --no-pager show -s --format=%H | head -c 7)" &&
+    echo "Already running Pleroma ${RUNNING_HASH}"
 
 # Is running latest version?
 if [ "${PLEROMA_VER}" = "${RUNNING_HASH}" ] ; then
