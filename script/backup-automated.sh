@@ -2,6 +2,9 @@
 # backup-mega.sh - Automated Postgres backup to MEGA
 set -ue
 
+# Get project name
+PROJECT_NAME="$(basename "$(cd "$(dirname $0)/../"; pwd)")"
+
 # Config check
 if [ -z "${MEGA_SESSION:+UNDEF}" ];then
   echo '$MEGA_SESSION is not defined.' 1>&2
@@ -11,18 +14,22 @@ if [ -z "${NET_NAME:+UNDEF}" ];then
   echo '$NET_NAME is not defined.' 1>&2
   exit 1
 fi
-if [ -z "${PLEROMA_DB:+UNDEF}" ];then
-  echo '$PLEROMA_DB is not defined.' 1>&2
+if [ -z "${POSTGRES_DB:+UNDEF}" ];then
+  echo '$POSTGRES_DB is not defined.' 1>&2
   exit 1
 fi
 if [ -z "${POSTGRES_NAME:+UNDEF}" ];then
   echo '$POSTGRES_NAME is not defined.' 1>&2
   exit 1
 fi
+if [ -z "${POSTGRES_VER:+UNDEF}" ];then
+  echo '$POSTGRES_VER is not defined.' 1>&2
+  exit 1
+fi
 
 # Backup path must use absolute path because this path will use in MEGA
 if [ -z "${BACKUP_PATH:+UNDEF}" ];then
-  BACKUP_PATH="/Backups/pleroma-rokoucha/$NET_NAME-$POSTGRES_NAME-$PLEROMA_DB-$(date "+%Y%m%d_%H%M%S").pgdump"
+  BACKUP_PATH="/Backups/pleroma-rokoucha/$PROJECT_NAME-$POSTGRES_NAME-$POSTGRES_VER-$POSTGRES_DB-$(date "+%Y%m%d_%H%M%S").pgdump"
 fi
 
 # Parse backup path
