@@ -72,7 +72,6 @@ BACKUP_FILE="$(basename "$BACKUP_PATH")"
 # Backup
 docker run \
   --rm \
-  -it \
   -u "$(id -u):$(id -g)" \
   -v "$BACKUP_DIR:/backup" \
   --net="$NET_NAME" \
