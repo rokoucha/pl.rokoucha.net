@@ -5,4 +5,4 @@ Description = Backup Pleroma instance
 WorkingDirectory = %h/vm/%i
 ExecStart = /bin/bash %h/vm/%i/script/backup-automated.sh
 Type = simple
-EnvironmentFile = %h/vm/%i/systemd/.env
+EnvironmentFile = %h/vm/%i/.env
