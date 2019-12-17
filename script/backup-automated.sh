@@ -29,7 +29,7 @@ fi
 
 # Backup path must use absolute path because this path will use in MEGA
 if [ -z "${BACKUP_PATH:+UNDEF}" ];then
-  BACKUP_PATH="/Backups/pleroma-rokoucha/$PROJECT_NAME-$POSTGRES_NAME-$POSTGRES_VER-$POSTGRES_DB-$(date "+%Y%m%d_%H%M%S").pgdump"
+  BACKUP_PATH="/Backups/$PROJECT_NAME/$POSTGRES_NAME-$POSTGRES_VER-$POSTGRES_DB-$(date "+%Y%m%d_%H%M%S").pgdump"
 fi
 
 # Parse backup path
