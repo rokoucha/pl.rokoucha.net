@@ -35,14 +35,14 @@ $(cd "$(dirname $0)"; pwd)/backup.sh -f "$TMP_PATH/$BACKUP_FILE"
 
 # Put to MEGA
 docker run \
-    --rm \
-    -v "$TMP_PATH:/backup" \
-    "danielquinn/megacmd-alpine" \
-        sh -c "
-            mega-login $MEGA_SESSION > /dev/null &&
-            mega-put -c /backup/$BACKUP_FILE $BACKUP_PATH &&
-            mega-logout --keep-session > /dev/null
-        "
+  --rm \
+  -v "$TMP_PATH:/backup" \
+  "danielquinn/megacmd-alpine" \
+    sh -c "
+      mega-login $MEGA_SESSION > /dev/null &&
+      mega-put -c /backup/$BACKUP_FILE $BACKUP_PATH &&
+      mega-logout --keep-session > /dev/null
+    "
 
 # Clean temporary workspace
 rm -rf "$TMP_PATH"

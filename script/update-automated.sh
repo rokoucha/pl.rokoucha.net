@@ -22,20 +22,21 @@ if [ -z "${POSTGRES_NAME:+UNDEF}" ];then
 fi
 
 notify() {
-    message="$(cat -)"
-    echo "$message"
-    toot post "$message" > /dev/null 2>&1
+  message="$(cat -)"
+  echo "$message"
+  toot post "$message" > /dev/null 2>&1
 }
 
 # Get running Pleroma version
 if docker-compose run --rm ${PLEROMA_NAME} echo Hey, you alive? > /dev/null 2>&1; then
-    RUNNING_HASH="$(docker-compose exec ${PLEROMA_NAME} git --no-pager show -s --format=%H | head -c 7)"
+  RUNNING_HASH="$(docker-compose exec ${PLEROMA_NAME} git --no-pager show -s --format=%H | head -c 7)"
+  echo "Already running Pleroma ${RUNNING_HASH}"
 fi
 
 # Is running latest version?
 if [ "${PLEROMA_VER}" = "${RUNNING_HASH}" ] ; then
-    echo "Already running latest Pleroma(${RUNNING_HASH})!"
-    exit 0
+  echo "Already running latest Pleroma(${RUNNING_HASH})!"
+  exit 0
 fi
 
 # Let's Update!
@@ -54,20 +55,20 @@ echo "[${PLEROMA_VER}] Deploying..." | notify
 docker-compose up -d --remove-orphans
 
 for i in $(seq 1 5); do
-    isAlive=$(curl -s -o /dev/null -I -w "%{http_code}\n" "${PLEROMA_URL}")
-    
-    if [ "$isAlive" -eq 200 ]; then
-	echo "[${PLEROMA_VER}] Update is done!" | notify
+  isAlive=$(curl -s -o /dev/null -I -w "%{http_code}\n" "${PLEROMA_URL}")
+  
+  if [ "$isAlive" -eq 200 ]; then
+    echo "[${PLEROMA_VER}] Update is done!" | notify
 
-	popd
-	exit 0
-    fi
+    popd
+    exit 0
+  fi
 
-    sleepTime=$((i*5))
+  sleepTime=$((i*5))
 
-    echo "[${PLEROMA_VER}] Return {$isAlive}, Retry in ${sleepTime}sec..." >&2
+  echo "[${PLEROMA_VER}] Return {$isAlive}, Retry in ${sleepTime}sec..." >&2
 
-    sleep "${sleepTime}s"
+  sleep "${sleepTime}s"
 done
 
 echo "[${PLEROMA_VER}] Failed to deploy..." >&2
