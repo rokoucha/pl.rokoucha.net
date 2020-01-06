@@ -31,8 +31,7 @@ services:
       - pleroma-uploads:/pleroma/uploads
       - ./config/prod.secret.exs:/pleroma/config/prod.secret.exs
       - ./config/keys.secret.exs:/pleroma/config/keys.secret.exs
-      - ./config/emoji:/pleroma/priv/static/emoji/custom
-      - ./config/tos.html:/pleroma/priv/static/static/terms-of-service.html
+      - ./config/tos.html:/pleroma/instance/static/static/terms-of-service.html
     depends_on:
       - postgres
     networks:

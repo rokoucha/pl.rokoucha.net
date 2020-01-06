@@ -9,15 +9,22 @@ config :logger, level: :info
 config :pleroma, :instance,
   name: "Pleroma/Rokoucha",
   email: "admin+pleroma@rokoucha.net",
-  limit: 5000,
   description: "Rokoucha's Pleroma instance",
-  finmoji_enabled: false,
   registrations_open: false,
-  rewrite_policy: Pleroma.Web.ActivityPub.MRF.SimplePolicy
+  rewrite_policy: Pleroma.Web.ActivityPub.MRF.SimplePolicy,
+  healthcheck: true
+
+config :pleroma, :assets,
+  mascots: [
+    no_mascot: %{
+      url: "",
+      mime_type: ""
+    }
+  ],
+  default_mascot: :no_mascot
 
 config :pleroma, :mrf_simple,
-  reject: ["newjack.city", "mstdn.h3z.jp", "misskey.io"],
-  media_removal: ["mstdn.jp"]
+  reject: ["newjack.city", "mstdn.h3z.jp", "misskey.io", "mstdn.jp"]
 
 config :pleroma, Pleroma.Upload,
   uploader: Pleroma.Uploaders.S3,
