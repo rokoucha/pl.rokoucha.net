@@ -13,6 +13,13 @@ services:
     networks:
       - pleroma
 
+  #adminer:
+  #  image: adminer
+  #ports:
+  #    - 8080:8080
+  #networks:
+  #    - pleroma
+
   web:
     build:
       context: ./
@@ -25,8 +32,7 @@ services:
       - ./config/prod.secret.exs:/pleroma/config/prod.secret.exs
       - ./config/keys.secret.exs:/pleroma/config/keys.secret.exs
       - ./config/emoji:/pleroma/priv/static/emoji/custom
-      #- ./config/instance:/pleroma/priv/static/instance
-      #- ./config/terms-of-service.html:/pleroma/priv/static/static/terms-of-service.html
+      - ./config/tos.html:/pleroma/priv/static/static/terms-of-service.html
     depends_on:
       - postgres
     networks:
