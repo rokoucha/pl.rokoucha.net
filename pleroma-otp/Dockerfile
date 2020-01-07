@@ -8,7 +8,6 @@ ARG PLEROMA_VER=develop
 
 RUN apk -U upgrade \
     && apk add --no-cache \
-       binutils \
        g++ \
        gcc \
        git \
@@ -27,6 +26,8 @@ RUN mix local.rebar --force \
     && mix deps.get --only prod \
     && mkdir release \
     && mix release --path release
+
+RUN echo ${PLEROMA_VER} > release/pleroma.ver
 
 # Setup stage
 FROM alpine:latest

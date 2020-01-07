@@ -14,21 +14,29 @@ services:
 
   web:
     build:
-      context: ./pleroma
+      context: ./pleroma-otp
       args:
         PLEROMA_VER: ${PLEROMA_VER}
-    image: pleroma:${PLEROMA_VER}
+    image: pleroma:${PLEROMA_VER}-otp
     volumes:
       - pleroma-uploads:/pleroma/uploads
-      - ./config/prod.secret.exs:/pleroma/config/prod.secret.exs
+      - ./prod.secret.exs:/etc/pleroma/config.exs
+      - ./keys.secret.exs:/etc/pleroma/prod.secret.exs
     depends_on:
       - postgres
     networks:
       - pleroma
     healthcheck:
       start_period: 30s
-    port:
+    ports:
       - 4000:4000
+
+  adminer:
+    image: adminer
+    networks:
+      - pleroma
+    ports:
+      - 8080:8080
 
 volumes:
   postgres-data:
