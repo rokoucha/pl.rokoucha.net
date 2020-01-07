@@ -22,7 +22,7 @@ services:
 
   web:
     build:
-      context: ./pleroma
+      context: ./docker/pleroma
       args:
         PLEROMA_VER: ${PLEROMA_VER}
     image: pleroma:${PLEROMA_VER}
@@ -38,10 +38,6 @@ services:
       - pleroma
       - voyager_link
     healthcheck:
-      test: ["CMD-SHELL", "[ $$(wget -q -O - --header 'X-Forwarded-Proto: https' http://localhost:4000/api/pleroma/healthcheck | jq -r .active) = '1' ]"]
-      interval: 1m30s
-      timeout: 10s
-      retries: 3
       start_period: 30s
 
 volumes:
