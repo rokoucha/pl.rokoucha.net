@@ -1,23 +1,24 @@
 #!/bin/bash
-# update.sh - Automated Pleroma updater
+# update-automated.sh - Automated Pleroma updater
 set -uex
 
-pushd $(cd "$(dirname $0)/../"; pwd)
+pushd "$(cd "$(dirname "$0")/../"; pwd)"
 
 # Config
-export PLEROMA_VER=$(git ls-remote https://git.pleroma.social/pleroma/pleroma.git HEAD | head -c 7)
+PLEROMA_VER=$(git ls-remote https://git.pleroma.social/pleroma/pleroma.git HEAD | head -c 7)
 RUNNING_HASH=""
+export PLEROMA_VER
 
 if [ -z "${PLEROMA_NAME:+UNDEF}" ];then
-  echo '$PLEROMA_NAME is not defined.' 1>&2
+  echo 'PLEROMA_NAME is not defined.' 1>&2
   exit 1
 fi
 if [ -z "${PLEROMA_URL:+UNDEF}" ];then
-  echo '$PLEROMA_URL is not defined.' 1>&2
+  echo 'PLEROMA_URL is not defined.' 1>&2
   exit 1
 fi
 if [ -z "${POSTGRES_NAME:+UNDEF}" ];then
-  echo '$POSTGRES_NAME is not defined.' 1>&2
+  echo 'POSTGRES_NAME is not defined.' 1>&2
   exit 1
 fi
 
@@ -28,8 +29,8 @@ notify() {
 }
 
 # Get running Pleroma version
-docker-compose exec -T ${PLEROMA_NAME} echo "Hey, you alive?" &&
-  RUNNING_HASH="$(docker-compose exec -T ${PLEROMA_NAME} git --no-pager show -s --format=%H | head -c 7)" &&
+docker-compose exec -T "${PLEROMA_NAME}" echo "Hey, you alive?" &&
+  RUNNING_HASH="$(docker-compose exec -T "${PLEROMA_NAME}" git --no-pager show -s --format=%H | head -c 7)" &&
     echo "Already running Pleroma ${RUNNING_HASH}"
 
 # Is running latest version?
@@ -42,13 +43,13 @@ fi
 echo "Update Pleroma ${RUNNING_HASH} to ${PLEROMA_VER} !" | notify
 
 echo "[${PLEROMA_VER}] Pulling postgres..." | notify
-docker-compose pull ${POSTGRES_NAME} 
+docker-compose pull "${POSTGRES_NAME}"
 
 echo "[${PLEROMA_VER}] Building Pleroma..." | notify
-docker-compose build --pull ${PLEROMA_NAME}
+docker-compose build --pull "${PLEROMA_NAME}"
 
 echo "[${PLEROMA_VER}] Migrating..." | notify
-docker-compose run --rm ${PLEROMA_NAME} mix ecto.migrate
+docker-compose run --rm "${PLEROMA_NAME}" mix ecto.migrate
 
 echo "[${PLEROMA_VER}] Deploying..." | notify
 docker-compose up -d --remove-orphans
