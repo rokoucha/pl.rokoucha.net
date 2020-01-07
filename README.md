@@ -7,7 +7,7 @@ This project is forked from [angristan/docker-pleroma](https://github.com/angris
 
 ## License and Copyright
 
-Copyright (c) 2018 Angristan
-Copyright (c) 2019 Atnanasi
+    Copyright (c) 2018 Angristan
+    Copyright (c) 2019 Atnanasi / Rokoucha
 
 Released under the MIT license, see LICENSE.
