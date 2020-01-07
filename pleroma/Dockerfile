@@ -3,7 +3,8 @@ FROM elixir:1.9-alpine
 ENV UID=911 GID=911 \
     MIX_ENV=prod
 
-ARG PLEROMA_VER=develop
+ARG PLEROMA_REPOSITORY=https://git.pleroma.social/pleroma/pleroma.git
+ARG PLEROMA_VER=v1.0.0
 
 RUN apk -U upgrade \
     && apk add --no-cache \
@@ -18,8 +19,7 @@ RUN addgroup -g ${GID} pleroma \
 USER pleroma
 WORKDIR /pleroma
 
-RUN git clone -b develop https://git.pleroma.social/pleroma/pleroma.git /pleroma \
-    && git checkout ${PLEROMA_VER}
+RUN git clone -b ${PLEROMA_VER} --depth 1 ${PLEROMA_REPOSITORY} /pleroma
 
 RUN touch /pleroma/config/prod.secret.exs
 
@@ -31,3 +31,6 @@ RUN mix local.rebar --force \
 VOLUME /pleroma/uploads/
 
 CMD ["mix", "phx.server"]
+
+HEALTHCHECK --interval=1m --timeout=30s --retries=3 \
+  CMD ["sh", "-c", "[ $$(wget -q -O - --header 'X-Forwarded-Proto: https' http://localhost:4000/api/pleroma/healthcheck | jq -r .active) = '1' ]"]

@@ -1,5 +1,3 @@
 config/*.secret.exs
 !config/prod.secret.exs
-config/emoji/*
-!config/emoji/.gitkeep
 .env

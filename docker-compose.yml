@@ -22,7 +22,7 @@ services:
 
   web:
     build:
-      context: ./
+      context: ./pleroma
       args:
         PLEROMA_VER: ${PLEROMA_VER}
     image: pleroma:${PLEROMA_VER}
