@@ -33,6 +33,7 @@ ENV UID=911 GID=911
 
 ARG HOME=/opt/pleroma
 ARG DATA=/var/lib/pleroma
+ARG PLEROMA_VER=develop
 
 RUN echo ${PLEROMA_VER} > /pleroma.ver
 
