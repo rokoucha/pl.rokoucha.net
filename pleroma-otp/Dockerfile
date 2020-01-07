@@ -8,11 +8,10 @@ ARG PLEROMA_VER=develop
 
 RUN apk -U upgrade \
     && apk add --no-cache \
-       g++ \
-       gcc \
-       git \
-       make \
-       musl-dev
+        gcc \
+        git \
+        make \
+        musl-dev
 
 WORKDIR /pleroma
 
@@ -39,10 +38,10 @@ ARG DATA=/var/lib/pleroma
 
 RUN apk -U upgrade \
     && apk add --no-cache \
-       git \
-       imagemagick \
-       jq \
-       ncurses
+        git \
+        imagemagick \
+        jq \
+        ncurses
 
 RUN addgroup -g ${GID} pleroma \
     && adduser -h ${HOME} -s /bin/nologin -D -G pleroma -u ${UID} pleroma \

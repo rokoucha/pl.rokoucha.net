@@ -8,10 +8,12 @@ ARG PLEROMA_VER=develop
 
 RUN apk -U upgrade \
     && apk add --no-cache \
-       build-base \
-       git \
-       imagemagick \
-       jq
+        gcc \
+        git \
+        imagemagick \
+        jq \
+        make \
+        musl-dev
 
 RUN addgroup -g ${GID} pleroma \
     && adduser -h /pleroma -s /bin/sh -D -G pleroma -u ${UID} pleroma
@@ -26,8 +28,10 @@ RUN touch /pleroma/config/prod.secret.exs
 
 RUN mix local.rebar --force \
     && mix local.hex --force \
-    && mix deps.get \
+    && mix deps.get --only prod \
     && mix compile
+
+RUN echo ${PLEROMA_VER} > pleroma.ver
 
 VOLUME /pleroma/uploads/
 
