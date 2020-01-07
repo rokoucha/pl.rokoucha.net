@@ -1,2 +1,3 @@
 .env
+keys.otp.exs
 keys.secret.exs
