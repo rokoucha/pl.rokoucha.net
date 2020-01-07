@@ -24,7 +24,7 @@ fi
 notify() {
   message="$(cat -)"
   echo "$message"
-  [ -z "${PLEROMA_QUIET:+UNDEF}" ] &&
+  [ -z "${UPDATE_QUIET:+UNDEF}" ] &&
     toot post "$message" > /dev/null 2>&1 &
 }
 
