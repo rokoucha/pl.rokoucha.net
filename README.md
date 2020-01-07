@@ -1,19 +1,13 @@
-# docker-pleroma
+# pl.rokoucha.net
 
-My [Pleroma](https://pl.at7s.me/atnanasi)'s tools.
+Everything that supports [Pleroma/Rokoucha](https://pl.rokoucha.net).
+Dockerfile is [docker-pleroma/pleroma](https://github.com/rokoucha/docker-pleroma/blob/master/pleroma/Dockerfile).
 
 This project is forked from [angristan/docker-pleroma](https://github.com/angristan/docker-pleroma).
-
-## Dockerfile
-
-## docker-compose.yml
-
-## update.sh
-
 
 ## License and Copyright
 
 Copyright (c) 2018 Angristan
 Copyright (c) 2019 Atnanasi
 
-Released under the MIT license, see LICENSE.txt.
+Released under the MIT license, see LICENSE.
