@@ -13,13 +13,6 @@ services:
     networks:
       - pleroma
 
-  #adminer:
-  #  image: adminer
-  #ports:
-  #    - 8080:8080
-  #networks:
-  #    - pleroma
-
   web:
     build:
       context: ./pleroma
@@ -38,10 +31,6 @@ services:
       - pleroma
       - voyager_link
     healthcheck:
-      test: ["CMD-SHELL", "[ $$(wget -q -O - --header 'X-Forwarded-Proto: https' http://localhost:4000/api/pleroma/healthcheck | jq -r .active) = '1' ]"]
-      interval: 1m30s
-      timeout: 10s
-      retries: 3
       start_period: 30s
 
 volumes:
