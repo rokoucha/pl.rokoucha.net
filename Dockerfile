@@ -9,7 +9,8 @@ RUN apk -U upgrade \
     && apk add --no-cache \
        build-base \
        git \
-       imagemagick
+       imagemagick \
+       jq
 
 RUN addgroup -g ${GID} pleroma \
     && adduser -h /pleroma -s /bin/sh -D -G pleroma -u ${UID} pleroma
