@@ -4,7 +4,7 @@ ENV UID=911 GID=911 \
     MIX_ENV=prod
 
 ARG PLEROMA_REPOSITORY=https://git.pleroma.social/pleroma/pleroma.git
-ARG PLEROMA_VER=v1.0.0
+ARG PLEROMA_VER=develop
 
 RUN apk -U upgrade \
     && apk add --no-cache \
@@ -19,7 +19,8 @@ RUN addgroup -g ${GID} pleroma \
 USER pleroma
 WORKDIR /pleroma
 
-RUN git clone -b ${PLEROMA_VER} --depth 1 ${PLEROMA_REPOSITORY} /pleroma
+RUN git clone -b develop ${PLEROMA_REPOSITORY} /pleroma \
+    && git checkout ${PLEROMA_VER}
 
 RUN touch /pleroma/config/prod.secret.exs
 
@@ -33,4 +34,4 @@ VOLUME /pleroma/uploads/
 CMD ["mix", "phx.server"]
 
 HEALTHCHECK --interval=1m --timeout=30s --retries=3 \
-  CMD ["/bin/sh", "-c", "[ $(/usr/bin/wget -q -O - --header 'X-Forwarded-Proto: https' http://localhost:4000/api/pleroma/healthcheck | /usr/bin/jq -r .active) = '1' ]"]
+  CMD ["sh", "-c", "[ $$(wget -q -O - --header 'X-Forwarded-Proto: https' http://localhost:4000/api/pleroma/healthcheck | jq -r .active) = '1' ]"]
