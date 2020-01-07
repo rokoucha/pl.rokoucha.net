@@ -3,27 +3,27 @@
 set -ue
 
 # Get project name
-PROJECT_NAME="$(basename "$(cd "$(dirname $0)/../"; pwd)")"
+PROJECT_NAME="$(basename "$(cd "$(dirname "$0")/../"; pwd)")"
 
 # Config check
 if [ -z "${MEGA_SESSION:+UNDEF}" ];then
-  echo '$MEGA_SESSION is not defined.' 1>&2
+  echo 'MEGA_SESSION is not defined.' 1>&2
   exit 1
 fi
 if [ -z "${NET_NAME:+UNDEF}" ];then
-  echo '$NET_NAME is not defined.' 1>&2
+  echo 'NET_NAME is not defined.' 1>&2
   exit 1
 fi
 if [ -z "${POSTGRES_DB:+UNDEF}" ];then
-  echo '$POSTGRES_DB is not defined.' 1>&2
+  echo 'POSTGRES_DB is not defined.' 1>&2
   exit 1
 fi
 if [ -z "${POSTGRES_NAME:+UNDEF}" ];then
-  echo '$POSTGRES_NAME is not defined.' 1>&2
+  echo 'POSTGRES_NAME is not defined.' 1>&2
   exit 1
 fi
 if [ -z "${POSTGRES_VER:+UNDEF}" ];then
-  echo '$POSTGRES_VER is not defined.' 1>&2
+  echo 'POSTGRES_VER is not defined.' 1>&2
   exit 1
 fi
 
@@ -38,7 +38,7 @@ BACKUP_FILE="$(basename "$BACKUP_PATH")"
 # Make temporary workspace
 TMP_PATH=$(mktemp -d)
 
-$(cd "$(dirname $0)"; pwd)/backup.sh -f "$TMP_PATH/$BACKUP_FILE"
+"$(cd "$(dirname "$0")"; pwd)/backup.sh" -f "$TMP_PATH/$BACKUP_FILE"
 
 # Put to MEGA
 docker run \
