@@ -6,6 +6,8 @@ ENV UID=911 GID=911 \
 ARG PLEROMA_REPOSITORY=https://git.pleroma.social/pleroma/pleroma.git
 ARG PLEROMA_VER=develop
 
+RUN echo ${PLEROMA_VER} > /pleroma.ver
+
 RUN apk -U upgrade \
     && apk add --no-cache \
         gcc \
@@ -30,8 +32,6 @@ RUN mix local.rebar --force \
     && mix local.hex --force \
     && mix deps.get --only prod \
     && mix compile
-
-RUN echo ${PLEROMA_VER} > pleroma.ver
 
 VOLUME /pleroma/uploads/
 

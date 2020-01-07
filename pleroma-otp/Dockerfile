@@ -26,8 +26,6 @@ RUN mix local.rebar --force \
     && mkdir release \
     && mix release --path release
 
-RUN echo ${PLEROMA_VER} > release/pleroma.ver
-
 # Setup stage
 FROM alpine:latest
 
@@ -35,6 +33,8 @@ ENV UID=911 GID=911
 
 ARG HOME=/opt/pleroma
 ARG DATA=/var/lib/pleroma
+
+RUN echo ${PLEROMA_VER} > /pleroma.ver
 
 RUN apk -U upgrade \
     && apk add --no-cache \
