@@ -1,30 +1,37 @@
-use Mix.Config
+import Config
 
 config :pleroma, Pleroma.Web.Endpoint,
-   url: [host: "pl.rokoucha.net", scheme: "https", port: 443],
-   http: [ip: {0, 0, 0, 0}, port: 4000]
+  http: [ip: {0, 0, 0, 0}, port: 4000],
+  url: [host: "pl.rokoucha.net", scheme: "https", port: 443]
+
 
 config :logger, level: :info
 
 config :pleroma, :instance,
-  name: "Pleroma/Rokoucha",
-  email: "admin+pleroma@rokoucha.net",
   description: "Rokoucha's Pleroma instance",
+  email: "admin+pleroma@rokoucha.net",
+  healthcheck: true,
+  name: "Pleroma/Rokoucha",
   registrations_open: false,
   rewrite_policy: Pleroma.Web.ActivityPub.MRF.SimplePolicy,
-  healthcheck: true
+  static_dir: "/var/lib/pleroma/static"
 
 config :pleroma, :assets,
+  default_mascot: :no_mascot,
   mascots: [
     no_mascot: %{
-      url: "",
-      mime_type: ""
+      mime_type: "",
+      url: ""
     }
-  ],
-  default_mascot: :no_mascot
+  ]
 
 config :pleroma, :mrf_simple,
-  reject: ["newjack.city", "mstdn.h3z.jp", "misskey.io", "mstdn.jp"]
+  reject: [
+    "misskey.io",
+    "mstdn.h3z.jp",
+    "mstdn.jp",
+    "newjack.city"
+  ]
 
 config :pleroma, Pleroma.Upload,
   uploader: Pleroma.Uploaders.S3,
@@ -36,20 +43,19 @@ config :pleroma, Pleroma.Upload,
 
 config :pleroma, Pleroma.Upload.Filter.Mogrify,
   args: [
-    "strip",
-    "auto-orient"
+    "auto-orient",
+    "strip"
   ]
 
 config :pleroma, Oban,
   queues: [
+    background: 50,
     federator_incoming: 200,
     federator_outgoing: 200,
-    web_push: 50,
     mailer: 10,
-    transmogrifier: 20,
     scheduled_activities: 100,
-    background: 50
+    transmogrifier: 20,
+    web_push: 50
   ]
 
-import_config "keys.secret.exs"
-
+import_config "prod.secret.exs"

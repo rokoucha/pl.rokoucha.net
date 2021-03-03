@@ -1,7 +1,8 @@
 # pl.rokoucha.net
 
 Everything that supports [Pleroma/Rokoucha](https://pl.rokoucha.net).
-Dockerfile is [docker-pleroma/pleroma](https://github.com/rokoucha/docker-pleroma/blob/master/pleroma/Dockerfile).
+
+Based Dockerfile is [docker-pleroma/pleroma](https://github.com/rokoucha/docker-pleroma/blob/master/pleroma/Dockerfile).
 
 This project is forked from [angristan/docker-pleroma](https://github.com/angristan/docker-pleroma).
 

@@ -1,0 +1,8 @@
+[Unit]
+Description = Backup Pleroma instance
+
+[Service]
+WorkingDirectory = %h/vm/%i
+ExecStart = /bin/bash %h/vm/%i/script/backup-automated.sh
+Type = simple
+EnvironmentFile = %h/vm/%i/.env
