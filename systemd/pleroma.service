@@ -9,7 +9,7 @@ Environment=PODMAN_SYSTEMD_UNIT=%n
 Restart=on-failure
 TimeoutStopSec=60
 ExecStartPre=/bin/rm -f %t/container-pleroma.pid %t/container-pleroma.ctr-id
-ExecStartPre=/usr/bin/podman build -t pleroma:v2.3.0 .
+ExecStartPre=/usr/bin/podman build -t pleroma:v2.3.0 --build-arg=PLEROMA_VER=v2.3.0 .
 ExecStart=/usr/bin/podman run \
     --cgroups=no-conmon \
     --cidfile %t/container-pleroma.ctr-id \
@@ -19,9 +19,10 @@ ExecStart=/usr/bin/podman run \
     --replace \
     --rm \
     -p 54000:4000 \
-    -v ./config/config.exs:/etc/pleroma/config.exs
-    -v ./config/prod.secret.exs:/etc/pleroma/prod.secret.exs
-    -v pleroma-uploads:/pleroma/uploads
+    -v ./config/config.exs:/etc/pleroma/config.exs \
+    -v ./config/prod.secret.exs:/etc/pleroma/prod.secret.exs \
+    -v ./config/tos.html:/var/lib/pleroma/static/static/terms-of-service.html \
+    -v pleroma-uploads:/pleroma/uploads \
     pleroma:v2.3.0
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/container-pleroma.ctr-id -t 10
 ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/container-pleroma.ctr-id

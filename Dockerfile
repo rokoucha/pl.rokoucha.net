@@ -6,6 +6,9 @@ ARG PLEROMA_REPOSITORY=https://git.pleroma.social/pleroma/pleroma.git
 ARG PLEROMA_VER=develop
 
 RUN apk -U upgrade && apk add --no-cache \
+    cmake \
+    file-dev \
+    g++ \
     gcc \
     git \
     make \
@@ -16,9 +19,8 @@ WORKDIR /pleroma
 RUN git clone -b develop ${PLEROMA_REPOSITORY} /pleroma \
     && git checkout ${PLEROMA_VER}
 
-RUN touch /pleroma/config/prod.secret.exs
-
-RUN && mix local.hex --force \
+RUN echo "import Config" > /pleroma/config/prod.secret.exs \
+    && mix local.hex --force \
     && mix local.rebar --force \
     && mix deps.get --only prod \
     && mkdir release \
@@ -26,27 +28,33 @@ RUN && mix local.hex --force \
 
 FROM alpine:3.13
 
+ENV GID=911
+ENV UID=911
+
 ARG HOME=/opt/pleroma
 ARG DATA=/var/lib/pleroma
 
 RUN echo ${PLEROMA_VER} > /pleroma.ver
 
-RUN apk -U upgrade && apk add --no-cache \
+RUN echo "https://sjc.edge.kernel.org/alpine/latest-stable/community" >> /etc/apk/repositories \
+    && apk -U upgrade \
+    && apk add --no-cache \
     exiftool \
     imagemagick \
-    jq \
     libmagic \
     ncurses \
-    && adduser --home ${HOME} --shell /bin/nologin --system pleroma \
+    postgresql-client \
+    && addgroup -g ${GID} pleroma \
+    && adduser -h ${HOME} -s /bin/nologin -D -G pleroma -u ${UID} pleroma \
     && mkdir -p ${DATA}/uploads \
     && mkdir -p ${DATA}/static \
-    && chown -R pleroma ${DATA} \
+    && chown -R ${UID}:${GID} ${DATA} \
     && mkdir -p /etc/pleroma \
-    && chown -R pleroma /etc/pleroma
+    && chown -R ${UID}:${GID} /etc/pleroma
 
 USER pleroma
 
-COPY --from=build --chown=pleroma:0 /pleroma/release ${HOME}
+COPY --from=build --chown=${UID}:${GID} /pleroma/release ${HOME}
 
 VOLUME ${DATA}/uploads/
 

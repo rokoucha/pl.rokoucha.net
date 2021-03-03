@@ -12,8 +12,10 @@ config :pleroma, :instance,
   healthcheck: true,
   name: "Pleroma/Rokoucha",
   registrations_open: false,
-  rewrite_policy: Pleroma.Web.ActivityPub.MRF.SimplePolicy,
   static_dir: "/var/lib/pleroma/static"
+
+config :pleroma, :mrf,
+  policies: [Pleroma.Web.ActivityPub.MRF.SimplePolicy]
 
 config :pleroma, :assets,
   default_mascot: :no_mascot,
@@ -26,9 +28,7 @@ config :pleroma, :assets,
 
 config :pleroma, :mrf_simple,
   reject: [
-    "misskey.io",
     "mstdn.h3z.jp",
-    "mstdn.jp",
     "newjack.city"
   ]
 
