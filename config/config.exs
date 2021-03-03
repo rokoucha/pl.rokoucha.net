@@ -1,7 +1,8 @@
 import Config
 
 config :pleroma, Pleroma.Web.Endpoint,
-  http: [ip: {0, 0, 0, 0}, port: 4000],
+  http: [ip: {127, 0, 0, 1}, port: 4000],
+  secure_cookie_flag: true,
   url: [host: "pl.rokoucha.net", scheme: "https", port: 443]
 
 config :logger, level: :info
