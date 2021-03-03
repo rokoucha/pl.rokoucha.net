@@ -14,14 +14,14 @@ services:
 
   web:
     build:
-      context: ./pleroma
+      context: ./
       args:
         PLEROMA_VER: ${PLEROMA_VER}
-    image: pleroma:${PLEROMA_VER}
+    image: pleroma:${PLEROMA_VER}-otp
     volumes:
       - pleroma-uploads:/pleroma/uploads
-      - ./config/prod.secret.exs:/pleroma/config/prod.secret.exs
-      - ./config/keys.secret.exs:/pleroma/config/keys.secret.exs
+      - ./config/prod.otp.exs:/etc/pleroma/config.exs
+      - ./config/keys.otp.exs:/etc/pleroma/prod.secret.exs
     depends_on:
       - postgres
     networks:

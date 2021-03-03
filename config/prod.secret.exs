@@ -1,54 +1,55 @@
-use Mix.Config
+import Config
 
 config :pleroma, Pleroma.Web.Endpoint,
-   url: [host: "localhost", scheme: "http", port: 4000],
-   http: [ip: {0, 0, 0, 0}, port: 4000]
+  http: [ip: {0, 0, 0, 0}, port: 4000],
+  url: [host: "localhost", scheme: "http", port: 4000]
 
 config :logger, level: :info
 
 config :pleroma, :instance,
-  name: "Pleroma/Test",
-  email: "admin+pleroma@rokoucha.net",
   description: "Rokoucha's Pleroma testing instance",
-  registrations_open: false,
+  email: "admin+pleroma@rokoucha.net",
   healthcheck: true,
-  static_dir: "/pleroma/static"
+  name: "Pleroma/Test",
+  registrations_open: false,
+  static_dir: "/var/lib/pleroma/static"
 
 config :pleroma, :assets,
+  default_mascot: :no_mascot
   mascots: [
     no_mascot: %{
-      url: "",
-      mime_type: ""
+      mime_type: "",
+      url: ""
     }
   ],
-  default_mascot: :no_mascot
 
 config :pleroma, Pleroma.Upload,
-  uploader: Pleroma.Uploaders.Local,
-  strip_exif: false,
   filters: [
     Pleroma.Upload.Filter.AnonymizeFilename,
     Pleroma.Upload.Filter.Mogrify
-  ]
+  ],
+  strip_exif: false,
+  uploader: Pleroma.Uploaders.Local
+
 
 config :pleroma, Pleroma.Uploaders.Local,
-  uploads: "/pleroma/uploads"
+  uploads: "/var/lib/pleroma/uploads"
 
 config :pleroma, Pleroma.Upload.Filter.Mogrify,
   args: [
-    "strip",
     "auto-orient"
+    "strip",
   ]
 
 config :pleroma, Oban,
   queues: [
+    background: 50,
     federator_incoming: 200,
     federator_outgoing: 200,
-    web_push: 50,
     mailer: 10,
-    transmogrifier: 20,
     scheduled_activities: 100,
-    background: 50
+    transmogrifier: 20,
+    web_push: 50
   ]
 
 import_config "keys.secret.exs"
