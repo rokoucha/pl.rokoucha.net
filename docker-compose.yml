@@ -17,11 +17,11 @@ services:
       context: ./
       args:
         PLEROMA_VER: ${PLEROMA_VER}
-    image: pleroma:${PLEROMA_VER}-otp
+    image: pleroma:${PLEROMA_VER}
     volumes:
       - pleroma-uploads:/pleroma/uploads
-      - ./config/prod.otp.exs:/etc/pleroma/config.exs
-      - ./config/keys.otp.exs:/etc/pleroma/prod.secret.exs
+      - ./config/config.exs:/etc/pleroma/config.exs
+      - ./config/prod.secret.exs:/etc/pleroma/prod.secret.exs
     depends_on:
       - postgres
     networks:
