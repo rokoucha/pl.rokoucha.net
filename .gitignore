@@ -1,2 +1,2 @@
-.env
-config/*.secret.exs
+/.env
+/config/*.secret.exs
