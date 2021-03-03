@@ -4,7 +4,6 @@ config :pleroma, Pleroma.Web.Endpoint,
   http: [ip: {0, 0, 0, 0}, port: 4000],
   url: [host: "pl.rokoucha.net", scheme: "https", port: 443]
 
-
 config :logger, level: :info
 
 config :pleroma, :instance,
@@ -34,12 +33,12 @@ config :pleroma, :mrf_simple,
   ]
 
 config :pleroma, Pleroma.Upload,
-  uploader: Pleroma.Uploaders.S3,
-  strip_exif: false,
   filters: [
     Pleroma.Upload.Filter.AnonymizeFilename,
     Pleroma.Upload.Filter.Mogrify
-  ]
+  ],
+  strip_exif: false,
+  uploader: Pleroma.Uploaders.S3
 
 config :pleroma, Pleroma.Upload.Filter.Mogrify,
   args: [
