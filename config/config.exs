@@ -58,4 +58,11 @@ config :pleroma, Oban,
     web_push: 50
   ]
 
+config :prometheus, Pleroma.Web.Endpoint.MetricsExporter,
+  auth: false,
+  enabled: true,
+  format: :text,
+  ip_whitelist: ["10.0.1.5", "2400:2410:3021:4900:20c:29ff:fe8a:f7d7"],
+  path: "/api/pleroma/app_metrics"
+
 import_config "prod.secret.exs"
