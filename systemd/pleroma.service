@@ -9,7 +9,6 @@ Environment=PODMAN_SYSTEMD_UNIT=%n
 Restart=on-failure
 TimeoutStopSec=60
 ExecStartPre=/bin/rm -f %t/container-pleroma.pid %t/container-pleroma.ctr-id
-ExecStartPre=/usr/bin/podman build -t pleroma:v2.3.0 --build-arg=PLEROMA_VER=v2.3.0 .
 ExecStart=/usr/bin/podman run \
     --cgroups=no-conmon \
     --cidfile %t/container-pleroma.ctr-id \
