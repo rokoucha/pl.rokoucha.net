@@ -60,6 +60,4 @@ VOLUME ${DATA}/uploads/
 
 EXPOSE 4000
 
-HEALTHCHECK --interval=1m --timeout=30s --retries=3 CMD ["/bin/sh", "-c", "[ $(/usr/bin/wget -q -O - --header 'X-Forwarded-Proto: https' http://localhost:4000/api/pleroma/healthcheck | /usr/bin/jq -r .active) = '1' ]"]
-
 CMD ["/opt/pleroma/bin/pleroma", "start"]
