@@ -22,7 +22,7 @@ ExecStart=/usr/bin/podman run \
     -v ./config/prod.secret.exs:/etc/pleroma/prod.secret.exs \
     -v ./config/tos.html:/var/lib/pleroma/static/static/terms-of-service.html \
     -v pleroma-uploads:/pleroma/uploads \
-    pleroma:v2.3.0
+    pleroma:v2.4.0
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/container-pleroma.ctr-id -t 10
 ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/container-pleroma.ctr-id
 PIDFile=%t/container-pleroma.pid
