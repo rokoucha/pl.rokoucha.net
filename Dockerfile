@@ -1,9 +1,9 @@
-FROM elixir:1.9-alpine AS build
+FROM docker.io/library/elixir:1.13-alpine AS build
 
 ENV MIX_ENV=prod
 
 ARG PLEROMA_REPOSITORY=https://git.pleroma.social/pleroma/pleroma.git
-ARG PLEROMA_VER=develop
+ARG PLEROMA_VER=v2.4.4
 
 RUN apk -U upgrade && apk add --no-cache \
     cmake \
@@ -26,7 +26,7 @@ RUN echo "import Config" > /pleroma/config/prod.secret.exs \
     && mkdir release \
     && mix release --path release
 
-FROM alpine:3.13
+FROM docker.io/library/alpine:3.16
 
 ENV GID=911
 ENV UID=911
