@@ -3,7 +3,7 @@ FROM docker.io/library/elixir:1.13-alpine AS build
 ENV MIX_ENV=prod
 
 ARG PLEROMA_REPOSITORY=https://git.pleroma.social/pleroma/pleroma.git
-ARG PLEROMA_VER=v2.4.4
+ARG PLEROMA_VER
 
 RUN apk -U upgrade && apk add --no-cache \
     cmake \
