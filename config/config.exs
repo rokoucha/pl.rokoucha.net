@@ -15,6 +15,18 @@ config :pleroma, :instance,
   registrations_open: false,
   static_dir: "/var/lib/pleroma/static"
 
+config :pleroma, Pleroma.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  database: "pleroma",
+  hostname: "172.16.2.11",
+  password: "pleroma",
+  pool_size: 10,
+  username: "pleroma",
+  prepare: :named,
+  parameters: [
+    plan_cache_mode: "force_custom_plan"
+  ]
+
 config :pleroma, :mrf,
   policies: [Pleroma.Web.ActivityPub.MRF.SimplePolicy]
 
@@ -34,6 +46,7 @@ config :pleroma, :mrf_simple,
   ]
 
 config :pleroma, Pleroma.Upload,
+  base_url: "https://cdn.ggrel.net/pleroma",
   filters: [
     Pleroma.Upload.Filter.AnonymizeFilename,
     Pleroma.Upload.Filter.Mogrify
