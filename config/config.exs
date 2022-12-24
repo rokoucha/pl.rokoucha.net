@@ -22,6 +22,7 @@ config :pleroma, Pleroma.Repo,
   password: "pleroma",
   pool_size: 10,
   username: "pleroma",
+  timeout: 30_000,
   prepare: :named,
   parameters: [
     plan_cache_mode: "force_custom_plan"
