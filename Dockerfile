@@ -1,9 +1,9 @@
-FROM docker.io/library/elixir:1.13-alpine AS build
+FROM docker.io/library/elixir:1.14-alpine AS build
 
 ENV MIX_ENV=prod
 
 ARG PLEROMA_REPOSITORY=https://git.pleroma.social/pleroma/pleroma.git
-ARG PLEROMA_VER
+ARG PLEROMA_VER=develop
 
 RUN apk -U upgrade && apk add --no-cache \
     cmake \
@@ -16,8 +16,7 @@ RUN apk -U upgrade && apk add --no-cache \
 
 WORKDIR /pleroma
 
-RUN git clone -b develop ${PLEROMA_REPOSITORY} /pleroma \
-    && git checkout ${PLEROMA_VER}
+RUN git clone --branch ${PLEROMA_VER} --depth 1 ${PLEROMA_REPOSITORY} /pleroma
 
 RUN echo "import Config" > /pleroma/config/prod.secret.exs \
     && mix local.hex --force \
@@ -36,8 +35,7 @@ ARG DATA=/var/lib/pleroma
 
 RUN echo ${PLEROMA_VER} > /pleroma.ver
 
-RUN echo "https://sjc.edge.kernel.org/alpine/latest-stable/community" >> /etc/apk/repositories \
-    && apk -U upgrade \
+RUN apk -U upgrade \
     && apk add --no-cache \
     exiftool \
     imagemagick \
