@@ -73,7 +73,7 @@ config :pleroma, Oban,
   ]
 
 config :pleroma, :static_fe,
-  enabled: true
+  enabled: false
 
 config :prometheus, Pleroma.Web.Endpoint.MetricsExporter,
   auth: false,
