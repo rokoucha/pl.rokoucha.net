@@ -29,7 +29,7 @@ ExecStart=/usr/bin/podman run \
     --volume %h/pods/pleroma/config/prod.secret.exs:/etc/pleroma/prod.secret.exs \
     --volume %h/pods/pleroma/config/tos.html:/var/lib/pleroma/static/static/terms-of-service.html \
     --volume pleroma-uploads:/pleroma/uploads \
-    pleroma:v2.5.1
+    pleroma:v2.5.2
 ExecStop=/usr/bin/podman stop --ignore --cidfile=%t/%n.ctr-id
 ExecStopPost=/usr/bin/podman rm -f --ignore --cidfile=%t/%n.ctr-id
 Type=notify
